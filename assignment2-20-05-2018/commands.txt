@@ -1,0 +1,1 @@
+yarn jar newfile.jar wordcount /user/singh.madhulica_gmail/abc outputword1

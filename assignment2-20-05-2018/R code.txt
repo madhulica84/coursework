@@ -1,0 +1,149 @@
+
+
+#Problem 1
+#The null hypothesis is µ = 15000. 
+#Begin with computing the test statistic.
+xbar = 14900
+#sample mean
+mu0 = 15000 
+# hypothesized value 
+sigma = 110 # population standard deviation
+n = 40 # sample size 
+z = (xbar-mu0)/(sigma/sqrt(n)) 
+z # test statistic 
+#5.749
+pnorm(-5.749596)
+#The critical value at .05 significance level
+alpha = .05 
+z.alpha = qnorm(1-alpha) 
+-z.alpha # critical value [1] -1.6449
+#The test statistic -4.5644 is less than the critical value of
+#-1.6449. Hence, at .05 significance level, 
+#we reject the claim that mean life of a fan is above 15,000 hours.
+
+#Problem 2:
+#######
+#The null hypothesis is that µ = 4. 
+#We begin with computing the test statistic.
+xbar1=4.2 # sample mean
+mu01=4 # Hypothezied Value
+sigma1=0.50 # population standard deviation
+n1=70 # sample size
+z1=(xbar1-mu01)/(sigma1/sqrt(n1))
+z1
+#We apply the pnorm function to compute the
+#upper tail p-value of the test statistic. 
+#As it turns out to be less than the .05 significance level, 
+#we reject the null hypothesis that µ = 4.
+pnorm(z1)
+1-pnorm(z1)
+pnorm(z1,lower.tail=FALSE)
+###Or#######
+alpha=0.05
+z.alpha = qnorm(1-alpha)
+z.alpha
+#The test statistic 3.344 is greater than the critical value of
+#1.6449. Hence, at .05 significance level, we reject the 
+#claim that there is at most 4 grams of saturated fat in a chocolate.
+
+## Problem 3 ###
+
+#The null hypothesis is that µ = 15.4. 
+xbar = 14.6 # sample mean
+mu0 = 15.4 # hypothesized value
+sigma = 2.5 # population standard deviation
+n = 35 # sample size
+z = (xbar-mu0)/(sigma/sqrt(n))
+z
+alpha = .05 
+z.half.alpha = qnorm(1-alpha/2) 
+c(-z.half.alpha, z.half.alpha)
+
+##The test statistic -1.8931 lies between the critical values
+##-1.9600 and 1.9600. 
+##Hence, at .05 significance level, 
+##we do not reject the null hypothesis 
+##that the mean penguin weight does not differ from last year.
+
+##
+##We apply the pnorm function to compute the two-tailed p-value
+##of the test statistic. 
+##It doubles the lower tail p-value as the 
+##sample mean is less than the hypothesized value.
+##Since it turns out to be greater than the .05 significance level, 
+##we do not reject the null hypothesis that µ = 15.4.
+pval = 2 * pnorm(z)
+pval
+
+###--------------------
+## R code for Cardio problem
+
+setwd("")
+mydata=read.csv("CardioGoodFitness.csv", header = TRUE)
+attach(mydata)
+names(mydata)
+summary(mydata)
+t.test(Miles~Gender, var.equal=TRUE)
+dim(mydata)
+
+####
+#Hypothesis Testing-Two sample Test-Luggage
+
+setwd("")
+Mydata=read.csv("Luggage.csv",header = TRUE)
+attach(Mydata)
+t.test(WingA,WingB, var.equal = TRUE, alternative = "greater")
+t.test(WingA,WingB)
+boxplot(WingA,WingB, col = c("Red","Pink"), horizontal = TRUE)
+
+####
+# R code for concrete problem
+setwd("")
+mydata=read.csv("Concrete1.csv", header = TRUE)
+mydata
+attach(mydata)
+names(mydata)
+t.test(TwoDays, SevenDays, paired = TRUE, conf.level = 0.99)
+
+####
+#Example problem-chi square Test
+Favor =c(108,18,35,24)
+Neutral =c(46,12,14,7)
+Oppose =c(71,30,26,9)
+mydata=data.frame(Favor, Neutral, Oppose, row.names =c("Hourly worker","Supervisor","Middle Management","Upper Management"))
+mydata
+chisq.test(mydata)
+chisq.test(mydata)$expected
+qchisq(0.95,6)
+
+# 95th percentile of chisq distribution at 6 degrees of freedom
+
+round(chisq.test(mydata)$residuals,3)
+install.packages('corrplot')
+library(corrplot)
+corrplot(chisq.test(mydata)$residuals, is.cor = FALSE)
+##For a given cell, the size of the circle
+##is proportional to the amount of the cell contribution.
+##The sign of the standardized residuals is also 
+##very important to interpret the association 
+##between rows and columns as explained in the block below.
+##Positive residuals are in blue. Positive values in cells
+##specify an attraction (positive association) 
+##between the corresponding row and column variables.
+##Negative residuals are in red. This implies a repulsion 
+#(negative association) 
+##between the corresponding row and column variables
+#The contribution (in %) of a given cell to the total 
+#Chi-square score
+#is calculated as follow:
+
+contrib <- 100*chisq.test(mydata)$residuals^2/chisq.test(mydata)$statistic
+round(contrib, 3)
+corrplot(contrib, is.cor = FALSE)
+chisq.test(mydata)$p.value
+
+
+
+
+
+
